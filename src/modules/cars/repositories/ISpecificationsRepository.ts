@@ -1,13 +1,17 @@
-import Specification from "../models/Specification";
+import Specification from "@modules/cars/infra/typeorm/entities/Specification";
 
-interface ISpecificationDTO {
+interface ICreateSpecificationDTO {
     name: string;
     description: string;
 }
 
 interface ISpecificationsRepository {
-    create({ description, name }: ISpecificationDTO): void;
-    findByName(name: string): Specification;
+    create({
+        description,
+        name,
+    }: ICreateSpecificationDTO): Promise<Specification>;
+    findByName(name: string): Promise<Specification>;
+    findByIds(ids: string[]): Promise<Specification[]>;
 }
 
-export { ISpecificationDTO, ISpecificationsRepository };
+export { ISpecificationsRepository, ICreateSpecificationDTO };

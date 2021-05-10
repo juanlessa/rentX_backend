@@ -1,13 +1,14 @@
-import Category from "../models/Category";
+import { Category } from "@modules/cars/infra/typeorm/entities/Category";
 
-interface ICategoryDTO {
+interface ICreateCategoryDTO {
     name: string;
     description: string;
 }
 
 interface ICategoriesRepository {
-    create({ name, description }: ICategoryDTO): void;
-    list(): Category[];
+    findByName(name: string): Promise<Category>;
+    list(): Promise<Category[]>;
+    create({ name, description }: ICreateCategoryDTO): Promise<void>;
 }
 
-export { ICategoriesRepository, ICategoryDTO };
+export { ICategoriesRepository, ICreateCategoryDTO };

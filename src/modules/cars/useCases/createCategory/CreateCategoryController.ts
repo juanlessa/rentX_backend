@@ -1,13 +1,17 @@
-import { Request, Response } from "express";
+import { Response, Request } from "express";
+import { container } from "tsyringe";
+
 import CreateCategoryService from "./CreateCategoryService";
 
 class CreateCategoryController {
-    constructor(private createCategoryService: CreateCategoryService) {}
-
-    handle(request: Request, response: Response) {
+    async handle(request: Request, response: Response): Promise<Response> {
         const { name, description } = request.body;
-        this.createCategoryService.execute({ name, description });
+
+        const createCategoryService = container.resolve(CreateCategoryService);
+
+        await createCategoryService.execute({ name, description });
+
         return response.status(201).send();
     }
 }
-export default CreateCategoryController;
+export { CreateCategoryController };
